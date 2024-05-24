@@ -17,10 +17,6 @@ export async function fetchImages(query, page) {
 
     const response = await axios.get(BASE_URL, { params });
 
-    if (response.status !== 200) {
-      throw new Error('Network response was not ok');
-    }
-
     return response.data;
   } catch (error) {
     throw new Error('Failed to fetch images');

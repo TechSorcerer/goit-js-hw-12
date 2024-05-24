@@ -22,6 +22,7 @@ const searchInput = document.querySelector('input[name="searchQuery"]');
 const gallery = document.querySelector('.gallery');
 const loadMoreBtn = document.querySelector('.js-load-more-btn');
 let page = 1;
+let currentQuery = '';
 
 searchForm.addEventListener('submit', event => {
   event.preventDefault();
@@ -30,21 +31,20 @@ searchForm.addEventListener('submit', event => {
   showLoadingIndicator();
 
   hideLoadMoreButton();
-  const query = searchInput.value.trim();
-  if (query === '') {
+  currentQuery = searchInput.value.trim();
+  if (currentQuery === '') {
     showNotification('Please enter a search query.');
     return;
   }
 
-  loadImages(query);
+  loadImages(currentQuery);
 });
 
 loadMoreBtn.addEventListener('click', () => {
   page++;
   const query = searchInput.value.trim();
   showLoadingIndicator();
-  loadImages(query);
-  LoadMoreButton(query);
+  loadImages(currentQuery);
 });
 
 async function loadImages(query) {
@@ -75,17 +75,9 @@ async function loadImages(query) {
     }
   } catch (error) {
     showNotification('Something went wrong. Please try again later.');
+    hideLoadMoreButton();
   } finally {
     hideLoadingIndicator();
   }
   searchInput.value = '';
-}
-
-async function LoadMoreButton(query) {
-  const images = await fetchImages(query, page);
-  if (images.length === 0) {
-    hideLoadMoreButton();
-  } else {
-    showLoadMoreButton();
-  }
 }
