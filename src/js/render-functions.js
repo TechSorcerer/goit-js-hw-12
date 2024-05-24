@@ -1,12 +1,21 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
+const loadMoreBtn = document.querySelector('.js-load-more-btn');
 const gallery = document.querySelector('.gallery');
 
 export function showNotification(message) {
   iziToast.error({
     title: 'Error',
     message: message,
+    position: 'topRight',
+  });
+}
+
+export function showEndLoad() {
+  iziToast.error({
+    title: 'Error',
+    message: "We're sorry, but you've reached the end of search results.",
     position: 'topRight',
   });
 }
@@ -55,4 +64,12 @@ export function createImageCard(arr) {
   `;
     })
     .join('');
+}
+
+export function showLoadMoreButton() {
+  loadMoreBtn.classList.remove('is-hidden');
+}
+
+export function hideLoadMoreButton() {
+  loadMoreBtn.classList.add('is-hidden');
 }
